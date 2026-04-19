@@ -27,7 +27,7 @@ const userSchema = new Schema(
         },
         avatar: {
             type: String,   //cloudinary url 
-            reqired: true
+            required: true
         },
         coverImage: {
             type: String,   //cloudinary url
@@ -51,8 +51,8 @@ const userSchema = new Schema(
     }
 )
 
-userSchema.pre("save", async function () {  // remove (next)
-    if(!this.isModified("password")) return;   // removed next()
+ userSchema.pre("save", async function () {  // remove (next)
+     if(!this.isModified("password")) return ;   // removed next()
     this.password = await bcrypt.hash(this.password, 10)
       //remove next()
 })
@@ -62,7 +62,7 @@ userSchema.methods.isPasswordCorrect = async function
     return await bcrypt.compare(password, this.password)
 } 
 
-userSchema.methods.genrateAccessToken = function() {
+userSchema.methods.generateAccessToken = function() {
     return jwt.sign(
         {
             _id: this._id,
@@ -72,18 +72,18 @@ userSchema.methods.genrateAccessToken = function() {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            epiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }
-userSchema.methods.genrateRefreshToken = function() {
+userSchema.methods.generateRefreshToken = function() {
     return jwt.sign(
         {
             _id: this._id,
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            epiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     )
 }
