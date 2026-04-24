@@ -53,6 +53,7 @@ const userSchema = new Schema(
 
  userSchema.pre("save", async function () {  // remove (next)
      if(!this.isModified("password")) return ;   // removed next()
+    
     this.password = await bcrypt.hash(this.password, 10)
       //remove next()
 })
