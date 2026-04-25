@@ -352,7 +352,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
         {
             $set: {
                 coverImage: coverImage.url
-            }
+            } 
         },
         {new: true}
     ).select("-password")
